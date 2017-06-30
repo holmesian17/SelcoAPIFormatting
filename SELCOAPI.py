@@ -16,27 +16,25 @@ import requests
 import sys
 import webbrowser
 import bs4
-import pyperclip
 
-res = requests.get('http://hzws.selco.info/prototype.php?type=new-arrivals&lib=nor&collect=Bnewnf,Bnewmys,Bnewf,Bnewsf,&days=14&key=7a8adfa9aydfa999997af')
+res = requests.get('http://hzws.selco.info/prototype.php?type=new-arrivals&lib=nor&collect=Bnewnf,Bnewmys,Bnewf,Bnewsf&days=14&key=7a8adfa9aydfa999997af')
 res.raise_for_status()
 
-# Retrieve top search result links
-soup = bs4.BeautifulSoup(res.text, "lxml")
+    # Retrieve top search result links
+soup = bs4.BeautifulSoup(res.text, "lxml-xml")
 
-# Open a browser tab for each result
-img = soup.select('imagelink')
-link = soup.select('cataloglink')
-title = soup.select('title')
+    # Open a browser tab for each result
+img = soup.select('ImageLink') 
+link = soup.select('CatalogLink')
 
-for i in range(13):
+    #for i in range(13):
+
+length = min([14, len(img)])
+for i in range(length):
     img1 = img[i].getText()
     link1 = link[i].getText()
-    title1 = title[i].getText()
-    #print(img1) # TODO: if no img src, skip to the next one
-    #print(link1)
-    #print(title1)
-    
 
-    print('<div>' + link1 + img1 + '</a></div>')
+    if img1 != '' and link1 != '':
+        print('<div>' + link1 + img1 + '</a></div>')
+
 #TODO: use regular expressions to find and replace the SC.GIF with LC.GIF    
